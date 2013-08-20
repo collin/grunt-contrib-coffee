@@ -142,12 +142,14 @@ module.exports = function(grunt) {
   var appendFooter = function (output, options, paths) {
     if (options.debug === true) {
       var sourceMap = JSON.parse(output.v3SourceMap);
-      sourceMap.sourceRoot = sourceMap.sourceRoot.replace(/\.\.\//g, '');
+      var file = sourceMap.sourceRoot.replace(/\.\.\//g, '');
+      sourceMap.files = [file];
+      sourceMap.sourceRoot = ""
       sourceMap = JSON.stringify(sourceMap);
       var buffer = new Buffer(unescape(encodeURIComponent(sourceMap).toString(), 'binary'));
       var map = buffer.toString('base64');
       // Add inline sourceMappingURL to file footer
-      output.js = output.js + '\n//@ sourceMappingURL=data:application/json;base64,' + map + '\n';
+      output.js = output.js + '\n//# sourceMappingURL=data:application/json;base64,' + map + '\n//# sourceURL='+file+'\n';
     }
     else {
       // Add sourceMappingURL to file footer
