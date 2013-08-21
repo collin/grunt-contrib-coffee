@@ -142,7 +142,7 @@ module.exports = function(grunt) {
   var appendFooter = function (output, options, paths) {
     if (options.debug === true) {
       var sourceMap = JSON.parse(output.v3SourceMap);
-      var file = sourceMap.sourceRoot.replace(/\.\.\//g, '');
+      var file = sourceMap.sourceRoot.replace(/\.\.\//g, '') + sourceMap.sources[0];
       sourceMap.files = [file];
       sourceMap.sourceRoot = ""
       sourceMap = JSON.stringify(sourceMap);
